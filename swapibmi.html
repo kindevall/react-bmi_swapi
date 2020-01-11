@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SWAPI BMI</title>
+
+    <meta charset="UTF-8" />
+    <style media="screen"></style>
+    <style>
+        body {
+            background-color: #242424;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: rgb(221, 204, 182);
+        }
+    </style>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        class BMI extends React.Component {
+            constructor(props) {
+                super(props)
+                console.log('constructor')
+
+                this.state = {
+                    'name': '',
+                    'weight': '',
+                    'height': '',
+                    'bmi': ''
+                }
+            }
+
+            componentDidMount = () => {
+                console.log('componentDidMount')
+                fetch(`https://swapi.co/api/people/${ this.props.id }`)
+                .then((httpResponse) => { return httpResponse.json() })
+                .then((jsonObject) => {
+                    this.setState({
+                        name: jsonObject.name,
+                        weight: jsonObject.mass,
+                        height: (jsonObject.height / 100)
+                    })
+                })
+                .then(this.calculateBMI)
+            }
+
+            componentWillUnmount = () => {
+                console.log('componentWillUnmount')
+            }
+
+            calculateBMI = () => {
+                console.log('calculateBMI')
+                this.setState({ bmi: (this.state.weight / (this.state.height * this.state.height)).toFixed(2) })
+            }
+
+            render = () => {
+                console.log('render')
+                return (
+                    <ul>
+                        <li>Name = { this.state.name }</li>
+                        <li>BMI = { this.state.bmi }</li>
+                    </ul>
+                )
+            }
+        }
+
+        // By changing the id, you can change which Star Wars character's BMI is to be calculated
+        // https://swapi.co/
+        ReactDOM.render(
+            <BMI id="1"/>, document.getElementById('root')
+        )
+
+    </script>
+
+</body>
+
+</html>
