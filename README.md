@@ -7,4 +7,4 @@ Which character's BMI is to be calculated can be changed in the ReactDOM.render
 
 ///
 
-Made as a part of a JavaScript course at Tampere University of Applied Sciences.
+Made as a part of a JavaScript(+React) course at Tampere University of Applied Sciences.
